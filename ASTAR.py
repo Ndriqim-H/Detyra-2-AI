@@ -16,34 +16,7 @@ class Node():
     def __eq__(self, other):
         return self.position == other.position
 
-harta = []
 
-rr = 8
-k = 5
-for i in range(rr):
-    harta.append([])
-    for j in range(k):
-        harta[i].append('0')
-
-# harta[floor(23/k)][23%k-1] = 1
-# print(list(range(1,151)))
-goal = random.randint(0,rr*k-1)
-lista = list(range(rr*k))
-lista.remove(goal)
-start = random.sample(lista,1)[0]
-
-
-lista.remove(start)
-
-# print(goal,lista,start,sep="\n")
-    
-
-obs = list(random.sample(lista,10))
-
-for i in obs:
-    harta[i%rr][i%k] = 'X'
-harta [goal%rr][goal%k] = 'G'
-harta [start % rr][start%k] = 'S'
 
 # for i in range(len(harta)):
 #     print (harta[i])
@@ -85,7 +58,6 @@ def A_Star(start,goal,maze):
             current = current_node
             while current is not None:
                 path.append(current.position)
-                # harta[current.position[0]][current.position[1]] = 'A'
                 current = current.parent
                 
             return path[::-1] # Return reversed path
@@ -122,8 +94,6 @@ def A_Star(start,goal,maze):
             # Create the f, g, and h values
             child.g = current_node.g + 1 # G-Score
             child.h = sqrt(((child.position[0] - end_node.position[0]) ** 2) + ((child.position[1] - end_node.position[1]) ** 2)) #H Score, Euclidian Distance
-            # child.h = sqrt((child.position[0] - end_node.position[0]) ** 2) + ((child.position[1] - end_node.position[1]) ** 2) #H Score, Euclidian Distance
-            # child.h = (abs(child.position[0]- end_node.position[0])) + (abs(child.position[1] - end_node.position[1])) #H Score, Manhatan Distance
             child.f = child.g + child.h
 
             # Child is already in the open list
@@ -167,6 +137,36 @@ def A_Star(start,goal,maze):
 # start = 20
 # goal = 39
 
+harta = []
+#Parameters
+rr = 10 #Rreshtat
+k = 10 #Kolonat
+obsNumber = 30 #Numri i bllokadave  
+
+
+for i in range(rr):
+    harta.append([])
+    for j in range(k):
+        harta[i].append('0')
+
+goal = random.randint(0,rr*k-1)
+lista = list(range(rr*k))
+lista.remove(goal)
+start = random.sample(lista,1)[0]
+
+
+lista.remove(start)
+
+  
+
+obs = list(random.sample(lista,obsNumber))
+
+for i in obs:
+    harta[i%rr][i%k] = 'X'
+harta [goal%rr][goal%k] = 'G'
+harta [start % rr][start%k] = 'S'
+
+
 harta [goal % rr ][goal%k] = 'G'
 harta [start % rr ][start%k] = 'S'
 # start = 143
@@ -177,6 +177,3 @@ for i in range(len(harta)):
 print("="*100)
 path = A_Star(start, goal, harta)
 print(path)
-# print("\n\n","="*20)
-# for i in range(len(harta)):
-#         print(harta[i])
