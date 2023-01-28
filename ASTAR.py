@@ -106,7 +106,7 @@ def A_Star(start,goal,maze):
 
             # Child is already in the open list
             for open_node in open_list:
-                if child.position == open_node.position and child.f > open_node.f:
+                if child.position == open_node.position:
                     inOpenList = True
                     break
             
@@ -153,7 +153,7 @@ harta = []
 #Parameters
 rr = 6 #Rreshtat
 k = 6 #Kolonat
-obsNumber = 5 #Numri i bllokadave  
+obsNumber = 30 #Numri i bllokadave  
 
 
 for i in range(rr):
