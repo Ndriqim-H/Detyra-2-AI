@@ -37,6 +37,7 @@ def A_Star(start,goal,maze):
     open_list = []
     closed_list = []
     start_node.h = sqrt(((start_node.position[0] - end_node.position[0]) ** 2) + ((start_node.position[1] - end_node.position[1]) ** 2)) #H Score, Squared Euclidian Distance
+    start_node.f = start_node.h
     open_list.append(start_node)
     while len(open_list) > 0:
 
@@ -76,6 +77,7 @@ def A_Star(start,goal,maze):
             # Make sure walkable terrain
             if maze[node_position[0]][node_position[1]] == 'X':
                 continue
+            
 
             # Create new node
             new_node = Node(current_node, node_position)
@@ -84,12 +86,18 @@ def A_Star(start,goal,maze):
             children.append(new_node)
 
         # Loop through children
+        
         for child in children:
-
+            inClosedList = False
+            inOpenList = False
             # Child is on the closed list
             for closed_child in closed_list:
-                if child == closed_child:
-                    continue
+                if child.position == closed_child.position:
+                    inClosedList = True
+                    break
+
+            if(inClosedList):
+                continue
 
             # Create the f, g, and h values
             child.g = current_node.g + 1 # G-Score
@@ -98,8 +106,12 @@ def A_Star(start,goal,maze):
 
             # Child is already in the open list
             for open_node in open_list:
-                if child == open_node and child.g > open_node.g:
-                    continue
+                if child.position == open_node.position and child.f > open_node.f:
+                    inOpenList = True
+                    break
+            
+            if(inOpenList):
+                continue
 
             # Add the child to the open list
             open_list.append(child)
@@ -139,9 +151,9 @@ def A_Star(start,goal,maze):
 
 harta = []
 #Parameters
-rr = 10 #Rreshtat
-k = 10 #Kolonat
-obsNumber = 30 #Numri i bllokadave  
+rr = 6 #Rreshtat
+k = 6 #Kolonat
+obsNumber = 5 #Numri i bllokadave  
 
 
 for i in range(rr):
@@ -161,14 +173,28 @@ lista.remove(start)
 
 obs = list(random.sample(lista,obsNumber))
 
-for i in obs:
-    harta[i%rr][i%k] = 'X'
+# for i in obs:
+#     harta[i%rr][i%k] = 'X'
+for i in range(obsNumber):
+        rr1 = random.randint(0, rr - 1)
+        k1 = random.randint(0, k - 1)
+        harta[rr1][k1] = 'X'
+
 harta [goal%rr][goal%k] = 'G'
 harta [start % rr][start%k] = 'S'
 
 
 harta [goal % rr ][goal%k] = 'G'
 harta [start % rr ][start%k] = 'S'
+
+# harta = [['G', '0', '0', '0', 'X', '0'],
+#          ['X', '0', '0', '0', '0', '0'],
+#          ['0', '0', '0', '0', '0', '0'],
+#          ['0', '0', '0', 'X', '0', 'X'],
+#          ['0', '0', '0', '0', 'S', '0'],
+#          ['0', '0', '0', '0', '0', '0']]
+# goal = 0
+# start = 28
 # start = 143
 # goal = 62
 
